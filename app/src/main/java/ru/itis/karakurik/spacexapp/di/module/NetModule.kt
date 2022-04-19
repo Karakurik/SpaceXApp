@@ -15,6 +15,7 @@ import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.itis.karakurik.spacexapp.data.network.SpaceXApi
 import ru.itis.karakurik.spacexapp.di.qualifier.BaseUrl
+import ru.itis.karakurik.spacexapp.di.qualifier.CacheMaxSize
 import ru.itis.karakurik.spacexapp.di.qualifier.LoggingInterceptor
 import java.io.File
 import javax.inject.Qualifier
@@ -61,24 +62,21 @@ class NetModule {
 
     @Provides
     fun provideCallAdapterFactory(): CallAdapter.Factory = RxJava3CallAdapterFactory.create()
+
     @Provides
     @BaseUrl
     fun provideBaseUrl(): String = BASE_URL
 
     @Provides
     @LoggingInterceptor
-    fun provideLoggingInterceptor(): Interceptor {
-        return HttpLoggingInterceptor()
+    fun provideLoggingInterceptor(): Interceptor =
+        HttpLoggingInterceptor()
             .setLevel(HttpLoggingInterceptor.Level.BODY)
-    }
 
     @Provides
     fun provideCacheDirectory(): File {
         return File("cache");
     }
-
-    @Qualifier
-    annotation class CacheMaxSize
 
     @CacheMaxSize
     @Provides

@@ -3,6 +3,8 @@ package ru.itis.karakurik.spacexapp.presentation.launchesList.recycler
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
+import ru.itis.karakurik.spacexapp.R
 import ru.itis.karakurik.spacexapp.databinding.ItemLaunchBinding
 import ru.itis.karakurik.spacexapp.domain.entity.Launch
 
@@ -13,7 +15,12 @@ class LaunchListViewHolder(
 
     fun bind(launch: Launch) {
         with(binding) {
-            tvText.text = launch.name
+            tvLaunchName.text = launch.name
+
+            ivLaunchItem.load(launch.smallImageUrl) {
+                crossfade(true)
+                placeholder(R.drawable.launch_icon_small)
+            }
 
             root.setOnClickListener {
                 onItemClick(launch.id)
